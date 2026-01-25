@@ -4,11 +4,11 @@
   import SquareIcon from "@lucide/svelte/icons/square";
   import { startPreset, stopPreset } from "tauri-plugin-modular-agent-api";
 
-  import { getCoreSettings, setCoreSettings } from "$lib/agent";
-  import { Button } from "$lib/components/ui/button/index.js";
-  import * as Dialog from "$lib/components/ui/dialog/index.js";
-  import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
-  import { Input } from "$lib/components/ui/input/index.js";
+  import { getCoreSettings, setCoreSettings, removePreset, renamePreset } from "$lib/agent";
+  import { Button } from "$lib/components/ui/button";
+  import * as Dialog from "$lib/components/ui/dialog";
+  import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
+  import { Input } from "$lib/components/ui/input";
 
   type Props = {
     id: string;
@@ -52,7 +52,7 @@
 
   async function handleDeletePresetSubmit(e: Event) {
     e.preventDefault();
-    await deletePreset(id);
+    await removePreset(id);
     openDeleteDialog = false;
   }
 
