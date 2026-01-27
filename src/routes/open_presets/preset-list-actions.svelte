@@ -4,11 +4,9 @@
   import SquareIcon from "@lucide/svelte/icons/square";
   import { startPreset, stopPreset } from "tauri-plugin-modular-agent-api";
 
-  import { getCoreSettings, setCoreSettings, removePreset, renamePreset } from "$lib/agent";
+  import { getCoreSettings, setCoreSettings } from "$lib/agent";
   import { Button } from "$lib/components/ui/button";
-  import * as Dialog from "$lib/components/ui/dialog";
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
-  import { Input } from "$lib/components/ui/input";
 
   type Props = {
     id: string;
@@ -29,31 +27,6 @@
   async function handleStop() {
     await stopPreset(id);
     running = false;
-  }
-
-  // rename and delete
-
-  let new_name = $state("");
-  let openRenameDialog = $state(false);
-  let openDeleteDialog = $state(false);
-
-  async function handleRenamePreset(e: Event) {
-    e.preventDefault();
-    new_name = name;
-    openRenameDialog = true;
-  }
-
-  async function handleRenamePresetSubmit(e: Event) {
-    e.preventDefault();
-    if (!new_name) return;
-    await renamePreset(id, new_name);
-    openRenameDialog = false;
-  }
-
-  async function handleDeletePresetSubmit(e: Event) {
-    e.preventDefault();
-    await removePreset(id);
-    openDeleteDialog = false;
   }
 
   async function handleRunOnStart() {
@@ -96,44 +69,7 @@
       {/snippet}
     </DropdownMenu.Trigger>
     <DropdownMenu.Content>
-      <DropdownMenu.Item onclick={handleRenamePreset}>Rename</DropdownMenu.Item>
-      <DropdownMenu.Item onclick={() => (openDeleteDialog = true)}>Delete</DropdownMenu.Item>
-      <DropdownMenu.Separator />
       <DropdownMenu.Item onclick={handleRunOnStart}>Run on Start</DropdownMenu.Item>
     </DropdownMenu.Content>
   </DropdownMenu.Root>
 </div>
-
-<Dialog.Root bind:open={openRenameDialog}>
-  <Dialog.Content class="sm:max-w-[425px]">
-    <form onsubmit={handleRenamePresetSubmit}>
-      <Dialog.Header>
-        <Dialog.Title>Rename Preset</Dialog.Title>
-      </Dialog.Header>
-      <div class="mt-4 mb-4">
-        <Input id="name-1" name="name" bind:value={new_name} />
-      </div>
-      <Dialog.Footer>
-        <Button type="submit">Rename</Button>
-      </Dialog.Footer>
-    </form>
-  </Dialog.Content>
-</Dialog.Root>
-
-<Dialog.Root bind:open={openDeleteDialog}>
-  <Dialog.Content class="sm:max-w-[425px]">
-    <form onsubmit={handleDeletePresetSubmit}>
-      <Dialog.Header>
-        <Dialog.Title>Delete Preset</Dialog.Title>
-        <Dialog.Description
-          ><div class="mt-8 text-center text-lg">
-            <strong>{name}</strong>
-          </div></Dialog.Description
-        >
-      </Dialog.Header>
-      <Dialog.Footer>
-        <Button type="submit">Delete</Button>
-      </Dialog.Footer>
-    </form>
-  </Dialog.Content>
-</Dialog.Root>
