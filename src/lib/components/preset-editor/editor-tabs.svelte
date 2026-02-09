@@ -24,15 +24,15 @@
     }
   }
 
-  function handleTabClose(event: MouseEvent, id: string) {
+  async function handleTabClose(event: Event, id: string) {
     event.stopPropagation();
     const wasActive = tabStore.activeTabId === id;
     tabStore.closeTab(id);
     if (!wasActive) return;
     if (tabStore.tabs.length === 0) {
-      goto("/open_presets");
+      await goto("/open_presets");
     } else {
-      goto(`/preset_editor/${tabStore.activeTabId}`, { invalidateAll: true });
+      await goto(`/preset_editor/${tabStore.activeTabId}`, { invalidateAll: true });
     }
   }
 
@@ -65,7 +65,7 @@
         class="flex-none size-4 rounded-sm hover:bg-muted-foreground/20 inline-flex items-center justify-center"
         onclick={(e) => handleTabClose(e, tab.id)}
         onkeydown={(e) => {
-          if (e.key === "Enter") handleTabClose(e as unknown as MouseEvent, tab.id);
+          if (e.key === "Enter") handleTabClose(e, tab.id);
         }}
         aria-label="Close tab"
       >
