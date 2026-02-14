@@ -3,7 +3,6 @@
 
   import { goto } from "$app/navigation";
 
-  import { listen } from "@tauri-apps/api/event";
   import { open } from "@tauri-apps/plugin-dialog";
 
   import { importPreset, newPresetWithName } from "$lib/agent";
@@ -11,37 +10,23 @@
   import * as ContextMenu from "$lib/components/ui/context-menu/index.js";
   import { ScrollArea } from "$lib/components/ui/scroll-area/index.js";
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
-  import { deletePreset, getDirEntries, openPreset } from "$lib/modular_agent";
+  import { deletePreset, openPreset } from "$lib/modular_agent";
+  import { presetTreeStore } from "$lib/preset-tree-store.svelte";
   import { tabStore } from "$lib/tab-store.svelte";
 
   import PresetActionDialog from "$lib/components/preset-action-dialog.svelte";
   import PresetDeleteDialog from "$lib/components/preset-delete-dialog.svelte";
 
-  let all_entries: Record<string, string[]> = $state({ "": [] });
   let dialog_name = $state("");
   let openNewPresetDialog = $state(false);
   let openDeletePresetDialog = $state(false);
 
   onMount(() => {
-    getDirEntries("").then((entries) => {
-      all_entries = { "": entries };
-    });
-
-    const unlisten = listen<{ path: string }>("ma:preset_list_changed", async (event) => {
-      const changedPath = event.payload.path;
-      if (!(changedPath in all_entries)) return;
-      const entries = await getDirEntries(changedPath);
-      all_entries = { ...all_entries, [changedPath]: entries };
-    });
-
-    return () => {
-      unlisten.then((fn) => fn());
-    };
+    presetTreeStore.loadRoot();
   });
 
   async function onFolderClick(path: string) {
-    let es = await getDirEntries(path);
-    all_entries = { ...all_entries, [path]: es };
+    await presetTreeStore.expandFolder(path);
   }
 
   async function handleFileClick(name: string) {
@@ -61,9 +46,7 @@
   async function onDeletePreset(name: string) {
     try {
       await deletePreset(name);
-      const parentPath = name.includes("/") ? name.substring(0, name.lastIndexOf("/")) : "";
-      const entries = await getDirEntries(parentPath);
-      all_entries = { ...all_entries, [parentPath]: entries };
+      // Refresh handled by ma:preset_list_changed event via presetTreeStore
     } catch (e) {
       console.error("Failed to delete preset:", e);
     }
@@ -94,7 +77,7 @@
 
 {#snippet folder({ name, path, open = false }: { name: string; path: string; open?: boolean })}
   <PresetFileList.Folder {name} {open} onclick={() => onFolderClick(path)}>
-    {@const entries = all_entries[path]}
+    {@const entries = presetTreeStore.entries[path]}
     {#if entries}
       {#each entries as entry (entry)}
         {#if entry.endsWith("/")}
@@ -132,7 +115,7 @@
   <Sidebar.GroupContent class="h-full">
     <ScrollArea class="h-full" orientation="both">
       <div class="group-data-[collapsible=icon]:hidden pl-2">
-        {#if all_entries[""].length === 0}
+        {#if presetTreeStore.entries[""].length === 0}
           <button
             class="text-xs text-muted-foreground px-2 py-1 hover:underline cursor-pointer"
             onclick={() => handleNew("")}
