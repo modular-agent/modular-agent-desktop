@@ -3,6 +3,7 @@
 
   import { goto } from "$app/navigation";
 
+  import { listen } from "@tauri-apps/api/event";
   import { open } from "@tauri-apps/plugin-dialog";
 
   import { importPreset, newPresetWithName } from "$lib/agent";
@@ -21,9 +22,21 @@
   let openNewPresetDialog = $state(false);
   let openDeletePresetDialog = $state(false);
 
-  onMount(async () => {
-    const entries = await getDirEntries("");
-    all_entries = { "": entries };
+  onMount(() => {
+    getDirEntries("").then((entries) => {
+      all_entries = { "": entries };
+    });
+
+    const unlisten = listen<{ path: string }>("ma:preset_list_changed", async (event) => {
+      const changedPath = event.payload.path;
+      if (!(changedPath in all_entries)) return;
+      const entries = await getDirEntries(changedPath);
+      all_entries = { ...all_entries, [changedPath]: entries };
+    });
+
+    return () => {
+      unlisten.then((fn) => fn());
+    };
   });
 
   async function onFolderClick(path: string) {
@@ -83,7 +96,7 @@
   <PresetFileList.Folder {name} {open} onclick={() => onFolderClick(path)}>
     {@const entries = all_entries[path]}
     {#if entries}
-      {#each entries as entry}
+      {#each entries as entry (entry)}
         {#if entry.endsWith("/")}
           {@const fn = entry.slice(0, -1)}
           {@const fp = path ? `${path}/${fn}` : fn}
