@@ -523,7 +523,7 @@
       bgColor={editor.running ? "var(--color-background)" : "var(--color-muted)"}
       gap={editor.gridGap}
       lineWidth={1}
-      variant={BackgroundVariant.Dots}
+      variant={BackgroundVariant.Cross}
       patternColor={editor.showGrid ? undefined : "transparent"}
     />
 
