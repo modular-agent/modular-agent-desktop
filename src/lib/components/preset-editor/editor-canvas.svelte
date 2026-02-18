@@ -642,11 +642,13 @@
     --resize-control-size: 2px;
     --resize-control-color: var(--color-ring);
   }
-
+  :global(.svelte-flow .svelte-flow__edges) {
+    z-index: 1001;
+    pointer-events: none;
+  }
   :global(.svelte-flow__edge .svelte-flow__edge-path) {
     stroke-width: 8px;
   }
-
   :global(.svelte-flow__resize-control.handle) {
     border: calc(var(--resize-control-size) * 1.5) solid var(--resize-control-color);
     border-radius: var(--resize-control-size);
