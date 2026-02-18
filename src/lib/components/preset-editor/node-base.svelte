@@ -1,7 +1,7 @@
 <script lang="ts" module>
   const bgColors = [
     "bg-muted dark:bg-muted",
-    "bg-background dark:bg-background",
+    "bg-agent-background dark:bg-agent-background",
     "bg-destructive dark:bg-destructive",
   ];
 
@@ -157,9 +157,7 @@
         <div class="w-full min-w-40 flex-none rounded-t-lg"></div>
       {/if}
     {:else}
-      <div
-        class="w-full min-w-40 flex-none pl-4 pr-4 pb-2 rounded-t-lg {titleColor} text-primary-foreground"
-      >
+      <div class="w-full min-w-40 flex-none pl-4 pr-4 pb-2 rounded-t-lg">
         {@render title()}
       </div>
     {/if}

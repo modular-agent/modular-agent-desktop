@@ -105,23 +105,23 @@ export function agentSpecToNode(spec: AgentSpec): PresetNode {
 const EDGE_COLOR_MAP: Record<string, string> = {
   default: "var(--color-connection-default)",
   // unit
-  unit: "var(--color-connection-unit)",
+  unit: "var(--color-agent-2)",
   // boolean
-  boolean: "var(--color-connection-boolean)",
+  boolean: "var(--color-agent-3)",
   // number
-  integer: "var(--color-connection-number)",
-  number: "var(--color-connection-number)",
+  integer: "var(--color-agent-4)",
+  number: "var(--color-agent-4)",
   // string-like
-  string: "var(--color-connection-string)",
-  text: "var(--color-connection-string)",
+  string: "var(--color-agent-5)",
+  text: "var(--color-agent-5)",
   // object-like
-  object: "var(--color-connection-object)",
-  doc: "var(--color-connection-object)",
-  message: "var(--color-connection-object)",
+  object: "var(--color-agent-6)",
+  doc: "var(--color-agent-6)",
+  message: "var(--color-agent-6)",
   // image
-  image: "var(--color-connection-image)",
+  image: "var(--color-agent-6)",
   // error
-  err: "var(--color-connection-err)",
+  err: "var(--color-agent-1)",
 };
 
 export function getEdgeColor(sourceHandle: string | null | undefined): string | null {

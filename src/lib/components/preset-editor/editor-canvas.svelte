@@ -23,6 +23,8 @@
 
   import { getCoreSettings, getEdgeColor, saveAsPreset } from "$lib/agent";
   import { AgentList } from "$lib/components/agent-list/index.js";
+  import CustomBezierEdge from "$lib/components/connection/custom-bezier-edge.svelte";
+  import CustomConnectionLine from "$lib/components/connection/custom-connection-line.svelte";
   import PresetActionDialog from "$lib/components/preset-action-dialog.svelte";
   import { Button } from "$lib/components/ui/button/index.js";
   import * as Dialog from "$lib/components/ui/dialog/index.js";
@@ -44,8 +46,6 @@
 
   import AgentNode from "./agent-node.svelte";
   import { useEditor } from "./context.svelte";
-  import CustomBezierEdge from "$lib/components/connection/custom-bezier-edge.svelte";
-  import CustomConnectionLine from "$lib/components/connection/custom-connection-line.svelte";
   import NodeContextMenu from "./node-context-menu.svelte";
   import PaneContextMenu from "./pane-context-menu.svelte";
 
@@ -529,10 +529,10 @@
     zoomOnDoubleClick={false}
   >
     <Background
-      bgColor={editor.running ? "var(--color-background)" : "var(--color-muted)"}
+      bgColor="var(--color-background)"
       gap={editor.gridGap}
       lineWidth={1}
-      variant={BackgroundVariant.Cross}
+      variant={editor.running ? undefined : BackgroundVariant.Cross}
       patternColor={editor.showGrid ? undefined : "transparent"}
     />
 
