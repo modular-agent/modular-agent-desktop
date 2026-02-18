@@ -9,6 +9,7 @@
 
   const DEFAULT_HANDLE_STYLE = "width: 12px; height: 12px;";
 
+  const HANDLE_INSET = 20;
   const HANDLE_OFFSET = 87;
   const HANDLE_OFFSET_NO_TITLE = 32;
   const HANDLE_GAP = 25.5;
@@ -165,14 +166,14 @@
     <div class="w-full flex-none grid grid-cols-2 gap-1 mt-4 mb-2">
       <div>
         {#each inputs as input}
-          <div class="text-left ml-2">
+          <div class="text-left ml-7">
             {input === "unit" ? "▸" : input}
           </div>
         {/each}
       </div>
       <div>
         {#each outputs as output}
-          <div class="text-right mr-2">
+          <div class="text-right mr-7">
             {output === "unit" ? "▸" : output}
           </div>
         {/each}
@@ -187,7 +188,7 @@
       </ScrollArea>
     </div>
     {#if showErr}
-      <div class="text-right mr-2 mb-2">err</div>
+      <div class="text-right mr-5 mb-2">err</div>
     {/if}
   </div>
 </div>
@@ -198,7 +199,8 @@
     id={input}
     type="target"
     position={Position.Left}
-    style="top: {idx * HANDLE_GAP + handleOffset}px; {DEFAULT_HANDLE_STYLE}{color
+    style="top: {idx * HANDLE_GAP +
+      handleOffset}px; left: {HANDLE_INSET}px; {DEFAULT_HANDLE_STYLE}{color
       ? `background-color: ${color};`
       : ''}"
   />
@@ -209,7 +211,8 @@
     id={output}
     type="source"
     position={Position.Right}
-    style="top: {idx * HANDLE_GAP + handleOffset}px; {DEFAULT_HANDLE_STYLE}{color
+    style="top: {idx * HANDLE_GAP +
+      handleOffset}px; right: {HANDLE_INSET}px; {DEFAULT_HANDLE_STYLE}{color
       ? `background-color: ${color};`
       : ''}"
   />
@@ -220,7 +223,8 @@
     id="err"
     type="source"
     position={Position.Right}
-    style="top: {(ht ?? height ?? 100) - 20}px; {DEFAULT_HANDLE_STYLE}{errColor
+    style="top: {(ht ?? height ?? 100) -
+      20}px; right: {HANDLE_INSET}px; {DEFAULT_HANDLE_STYLE}{errColor
       ? `background-color: ${errColor};`
       : ''}"
   />

@@ -198,7 +198,7 @@
 
 {#snippet contents()}
   {#if data.configs}
-    <form class="grow flex flex-col gap-1 pl-4 pr-4 pb-4">
+    <form class="grow flex flex-col gap-1 pl-7 pr-7 pb-4">
       {#each Object.entries(data.configs) as [key, value]}
         <AgentConfig
           name={key}
