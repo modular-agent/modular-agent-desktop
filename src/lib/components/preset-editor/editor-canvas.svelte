@@ -11,6 +11,7 @@
     type Connection,
     type NodeEventWithPointer,
     type NodeTargetEventWithPointer,
+    type EdgeTypes,
     type NodeTypes,
     type OnDelete,
     type OnMove,
@@ -43,6 +44,8 @@
 
   import AgentNode from "./agent-node.svelte";
   import { useEditor } from "./context.svelte";
+  import CustomBezierEdge from "$lib/components/connection/custom-bezier-edge.svelte";
+  import CustomConnectionLine from "$lib/components/connection/custom-connection-line.svelte";
   import NodeContextMenu from "./node-context-menu.svelte";
   import PaneContextMenu from "./pane-context-menu.svelte";
 
@@ -56,6 +59,10 @@
 
   const nodeTypes: NodeTypes = {
     agent: AgentNode,
+  };
+
+  const edgeTypes: EdgeTypes = {
+    default: CustomBezierEdge,
   };
 
   // --- MiniMap visibility ---
@@ -494,8 +501,10 @@
     attributionPosition="bottom-right"
     class="flex-1 w-full"
     colorMode={(coreSettings.color_mode as "light" | "dark" | "system") || "system"}
+    connectionLineComponent={CustomConnectionLine}
     connectionRadius={38}
     deleteKey={["Delete", "Backspace"]}
+    {edgeTypes}
     bind:edges={editor.edges}
     initialViewport={editor.props.flow().viewport ?? { x: 0, y: 0, zoom: 1 }}
     maxZoom={2}
