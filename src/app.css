@@ -43,7 +43,8 @@
   --agent-4: #b3b9d9;
   --agent-5: #d1d7dc;
   --agent-highlight: #fcfc02;
-  --connection-unit: #b8bcc4;
+  --connection-default: #b8bcc4;
+  --connection-unit: #c6c450;
   --connection-boolean: #d05050;
   --connection-number: #48b8a0;
   --connection-string: #68b8f0;
@@ -90,7 +91,8 @@
   --agent-4: #b3b9d9;
   --agent-5: #414346;
   --agent-highlight: #fbf49e;
-  --connection-unit: #b8bcc4;
+  --connection-default: #b8bcc4;
+  --connection-unit: #d0c74a;
   --connection-boolean: #d05050;
   --connection-number: #48b8a0;
   --connection-string: #68b8f0;
@@ -141,13 +143,14 @@
   --color-agent-4: var(--agent-4);
   --color-agent-5: var(--agent-5);
   --color-agent-highlight: var(--agent-highlight);
-  --color-connection-err: var(--connection-err);
-  --color-connection-string: var(--connection-string);
-  --color-connection-object: var(--connection-object);
-  --color-connection-number: var(--connection-number);
+  --color-connection-default: var(--connection-default);
   --color-connection-unit: var(--connection-unit);
   --color-connection-boolean: var(--connection-boolean);
+  --color-connection-number: var(--connection-number);
+  --color-connection-string: var(--connection-string);
+  --color-connection-object: var(--connection-object);
   --color-connection-image: var(--connection-image);
+  --color-connection-err: var(--connection-err);
 }
 
 @layer base {

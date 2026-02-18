@@ -103,6 +103,7 @@ export function agentSpecToNode(spec: AgentSpec): PresetNode {
 
 // Connection color mapping by source handle name (type-aware ports only)
 const EDGE_COLOR_MAP: Record<string, string> = {
+  default: "var(--color-connection-default)",
   // unit
   unit: "var(--color-connection-unit)",
   // boolean
@@ -125,13 +126,13 @@ const EDGE_COLOR_MAP: Record<string, string> = {
 
 export function getEdgeColor(sourceHandle: string | null | undefined): string | null {
   if (!sourceHandle) return null;
-  const color = EDGE_COLOR_MAP[sourceHandle];
+  let color = EDGE_COLOR_MAP[sourceHandle];
   if (color) return color;
   // Plural fallback: "messages" -> "message", "strings" -> "string"
   if (sourceHandle.endsWith("s")) {
-    return EDGE_COLOR_MAP[sourceHandle.slice(0, -1)] ?? null;
+    color = EDGE_COLOR_MAP[sourceHandle.slice(0, -1)];
   }
-  return null;
+  return color ?? EDGE_COLOR_MAP["default"];
 }
 
 export function connectionSpecToEdge(connection: ConnectionSpec): PresetEdge {
