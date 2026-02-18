@@ -10,7 +10,7 @@
   const DEFAULT_HANDLE_STYLE = "width: 12px; height: 12px;";
 
   const HANDLE_INSET = 20;
-  const HANDLE_OFFSET = 87;
+  const HANDLE_OFFSET = 73;
   const HANDLE_OFFSET_NO_TITLE = 32;
   const HANDLE_GAP = 25.5;
   const DEFAULT_MAX_NODE_HEIGHT = 500;
@@ -164,16 +164,26 @@
     <div class="w-full flex-none grid grid-cols-2 gap-1 mt-4 mb-2">
       <div>
         {#each inputs as input}
-          <div class="text-left ml-7">
-            {input === "unit" ? "▸" : input}
-          </div>
+          {@const color = getEdgeColor(input)}
+          {#if input === "unit"}
+            <div class="text-left text-[1.55rem] leading-none ml-6" style:color>▸</div>
+          {:else}
+            <div class="text-left ml-7" style:color>
+              {input}
+            </div>
+          {/if}
         {/each}
       </div>
       <div>
         {#each outputs as output}
-          <div class="text-right mr-7">
-            {output === "unit" ? "▸" : output}
-          </div>
+          {@const color = getEdgeColor(output)}
+          {#if output === "unit"}
+            <div class="text-right text-[1.55rem] leading-none mr-5" style:color>▸</div>
+          {:else}
+            <div class="text-right mr-7" style:color>
+              {output}
+            </div>
+          {/if}
         {/each}
       </div>
     </div>
@@ -186,7 +196,8 @@
       </ScrollArea>
     </div>
     {#if showErr}
-      <div class="text-right mr-5 mb-2">err</div>
+      {@const errLabelColor = getEdgeColor("err")}
+      <div class="text-right mr-5 mb-2" style:color={errLabelColor}>err</div>
     {/if}
   </div>
 </div>
