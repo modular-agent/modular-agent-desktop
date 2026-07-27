@@ -1,3 +1,11 @@
+> [!IMPORTANT]
+> **This repository has moved.** Development continues in the
+> [modular-agent monorepo](https://github.com/modular-agent/modular-agent), under [`apps/desktop`](https://github.com/modular-agent/modular-agent/tree/main/apps/desktop).
+>
+> The full commit history was carried over, so `git log` and `git blame` still work there.
+> This repository is archived and read-only; the last state before the move is tagged
+> `pre-monorepo`.
+
 <div align="center">
 
 <img alt="logo" width="150" height="150" src="src-tauri/icons/Square150x150Logo.png">
